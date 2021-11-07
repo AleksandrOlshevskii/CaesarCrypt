@@ -1,0 +1,523 @@
+#Windows setup
+WindowManager:
+	MainMenu:
+	DecryptMenu:
+	EncryptMenu:
+
+
+#Main screen(middle)
+<MainMenu>:
+	name: "main"
+	
+	RelativeLayout:
+	
+		#Background image
+		canvas.before:
+			Rectangle:
+				pos: self.pos
+				size: self.size
+			
+				source: "Images/Background_Main.png"
+	
+		BoxLayout:
+			size: root.width, root.height
+			orientation: "vertical"
+		
+			#Title
+			Label:
+				text: "CaesarCrypt"
+				font_size: 70
+				color: 9/255, 40/255, 52/255, 1
+				bold: True
+				
+				size_hint: 1,0.5
+			
+			
+			FloatLayout:
+				
+				#Decrypt button(left)
+				Button:
+					#Text properties
+					text: "Decrypt"
+					font_size: 38
+					color: 228/255, 241/255, 246/255, 1
+					text_size: self.size
+					
+					#Position and size properties
+					valign: "top"
+					halign: "center"
+					padding_y: 20
+					size_hint: 0.25, 0.8
+					pos_hint : {"center_x":0.25, "center_y":0.6}
+					
+					#Background properties
+					background_normal: ""
+					background_color: 26/255, 62/255, 76/255, 1
+					background_down: ""
+					
+					#Functionality
+					on_press:
+						app.root.current = "decrypt"
+						root.manager.transition.direction = "right"
+				
+				#Key image
+				Image:
+					source: "Images/Key_Main.png"
+				
+					size_hint: 0.13, 0.13
+					pos_hint: {"center_x": 0.25, "center_y": 0.7}
+				
+				
+				#Decrypt button text
+				Label:	
+					text: "Turn encrypted text\ninto a readable form\nby brute-forcing all of\nthe possible\ncombinations"
+					font_size: 20
+					color: 228/255, 241/255, 246/255, 1
+					
+					pos_hint: {"center_x": 0.24, "center_y": 0.4}
+				
+				
+				
+				#Encrypt button(right)
+				Button:
+					text: "Encrypt"
+					font_size: 38
+					color: 228/255, 241/255, 246/255, 1
+					text_size: self.size
+				
+					valign: "top"
+					halign: "center"
+					padding_y: 20
+					size_hint: 0.25, 0.8
+					pos_hint : {"center_x":0.75, "center_y":0.6}
+				
+					background_normal: ""
+					background_color: 26/255, 62/255, 76/255, 1
+					background_down: ""
+					
+					on_press:
+						app.root.current = "encrypt"
+						root.manager.transition.direction = "left"
+					
+					
+				#Lock image
+				Image:
+					source: "Images/Lock_Main.png"
+					
+					size_hint: 0.18,0.18
+					pos_hint: {"center_x":0.75, "center_y":0.7}
+			
+			
+				
+				#Encrypt button text
+				Label:	
+					text: "Turn readable text into\nan encrypted form by\nreplacing each letter\nwith a letter shifted a\ncertain number of\nplaces in the alphabet"
+					font_size: 20
+					color: 228/255, 241/255, 246/255, 1
+					
+					pos_hint : {"center_x":0.75, "center_y":0.39}
+					
+					
+				
+
+
+
+
+
+
+#Decrypt screen(left)
+<DecryptMenu>:
+	name: "decrypt"
+	
+	#Connection with the .py file
+	in_words: in_words
+	out_words: out_words
+	in_shift: in_shift
+	
+	
+	RelativeLayout:
+		
+		#Background image
+		canvas.before:	
+			Rectangle:
+				pos:self.pos
+				size: self.size
+				
+				source: "Images/Background_Decrypt.png"
+	
+
+		BoxLayout:
+			size: root.width, root.height
+			orientation: "vertical"
+		
+			
+			#Title
+			Label:
+				text: "Decrypt"
+				font_size: 70
+				color: 9/255, 40/255, 52/255, 1
+				bold: True
+				
+				size_hint: 1,0.5
+				
+			
+			FloatLayout:
+				
+				#User input(top)
+				TextInput:
+					id: in_words
+				
+					font_size:20
+					cursor_color: 228/255, 241/255, 246/255, 1
+					foreground_color: 228/255, 241/255, 246/255, 1
+				
+					size_hint: 0.75, 0.25
+					pos_hint : {"center_x": 0.5, "center_y": 0.875}
+					
+					background_normal: ""
+					background_active: ""
+					background_color: 26/255, 62/255, 76/255, 1
+					
+					#Limitation on the number of characters
+					input_filter: lambda text, from_undo: text[:200 - len(self.text)]
+					
+					
+				#Decrypted output(bottom)
+				TextInput:
+					id: out_words
+					
+					font_size:20
+					
+					size_hint: 0.75, 0.25
+					pos_hint: {"center_x":0.5, "center_y":0.325}
+					
+					background_color: 26/255, 62/255, 76/255, 1
+					cursor_color: 228/255, 241/255, 246/255, 1
+					foreground_color: 228/255, 241/255, 246/255, 1
+					background_normal: ""
+					background_active: ""
+
+					readonly: True
+
+				
+				#Txt button
+				Button:
+					text: ".txt"
+					font_size: 20
+					color: 228/255, 241/255, 246/255, 1
+					bold: True
+					text_size: self.size
+				
+					valign: "center"
+					halign: "center"
+					size_hint: 0.05,0.11
+					pos_hint: {"center_x":0.15, "center_y":0.6}
+					
+					background_normal: ""
+					background_color: 26/255, 62/255, 76/255, 1
+					background_down: ""
+					
+					on_press: root.decode_txt_btn()
+					
+				
+				#Left arrow button
+				Button:
+					text: "<"
+					font_size: 20
+					color: 228/255, 241/255, 246/255, 1
+					bold: True
+					text_size: self.size
+				
+					valign: "center"
+					halign: "center"
+					size_hint: 0.03,0.11
+					pos_hint: {"center_x":0.30, "center_y":0.6}
+					
+					background_normal: ""
+					background_color: 26/255, 62/255, 76/255, 1
+					background_down: ""
+					
+					on_press:
+						root.options_left_btn()
+						
+						
+				#Other options text
+				Label:
+					text: "Other options"
+					font_size: 20
+					color: 9/255, 40/255, 52/255, 1
+					
+					pos_hint: {"center_x":0.38, "center_y":0.6}
+					
+				
+				#Right arrow button
+				Button:
+					text: ">"
+					font_size: 20
+					color: 228/255, 241/255, 246/255, 1
+					bold: True
+					text_size: self.size
+				
+					valign: "center"
+					halign: "center"
+					size_hint: 0.03,0.11
+					pos_hint: {"center_x":0.46, "center_y":0.6}
+					
+					background_normal: ""
+					background_color: 26/255, 62/255, 76/255, 1
+					background_down: ""
+					
+					on_press:
+						root.options_right_btn()
+						
+				
+				#Shift text				
+				Label:
+					text: "Shift (if known):"
+					font_size: 20
+					color: 9/255, 40/255, 52/255, 1
+					
+					pos_hint: {"center_x":0.61, "center_y":0.6}
+				
+				
+				#Shift input
+				TextInput:
+					id: in_shift
+					
+					font_size: 20
+					text_size: self.size
+					
+					halign: "center"
+					padding_y: 15
+					size_hint: 0.05, 0.11
+					pos_hint: {"center_x":0.72, "center_y":0.6}
+					
+					background_color: 26/255, 62/255, 76/255, 1
+					cursor_color: 228/255, 241/255, 246/255, 1
+					foreground_color: 228/255, 241/255, 246/255, 1
+					background_normal: ""
+					background_active: ""
+					
+					input_filter: lambda text, from_undo: text[:3 - len(self.text)]
+					multiline: False
+					
+				
+				#Decrypt button
+				Button:
+					text: "Decrypt"
+					font_size: 20
+					color: 228/255, 241/255, 246/255, 1
+					text_size: self.size
+				
+					valign: "center"
+					halign: "center"
+					size_hint: 0.1,0.11
+					pos_hint: {"center_x":0.825, "center_y":0.6}
+					
+					background_normal: ""
+					background_color: 26/255, 62/255, 76/255, 1
+					background_down: ""
+					
+					on_press: root.decode_btn()
+					
+				
+				#Go back button
+				Button:
+					size_hint: 0.1, 0.8
+					pos_hint: {"right":1, "top":1}
+					
+					background_normal: ""
+					background_color: 228/255, 241/255, 246/255, 0.3
+					background_down: ""
+					
+					on_press:
+						app.root.current = "main"
+						root.manager.transition.direction = "left"
+					
+					
+				#Arrow image
+				Image:
+					source: "Images/Arrow.png"
+					opacity: 0.8
+					
+					size_hint: 1,1
+					pos_hint: {"center_x":0.96, "center_y":0.6}
+				
+					
+					
+					
+					
+					
+					
+#Encrypt screen(right)			
+<EncryptMenu>:
+	name: "encrypt"
+	
+	#Connection with the .py file
+	in_words: in_words
+	out_words: out_words
+	in_shift: in_shift
+	
+	RelativeLayout:
+		
+		#Background image
+		canvas.before:	
+			Rectangle:
+				pos:self.pos
+				size: self.size
+				
+				source: "Images/Background_Encrypt.png"
+				
+				
+		BoxLayout:
+			size: root.width, root.height
+			orientation: "vertical"
+		
+			
+			#Title
+			Label:
+				text: "Encrypt"
+				font_size: 70
+				color: 9/255, 40/255, 52/255, 1
+				bold: True
+				
+				size_hint: 1,0.5
+				
+
+			FloatLayout:
+				
+				#User input(top)
+				TextInput:
+					id: in_words
+				
+					font_size:20
+					
+					size_hint: 0.75, 0.25
+					pos_hint : {"center_x":0.5, "center_y":0.875}
+					
+					background_color: 26/255, 62/255, 76/255, 1
+					cursor_color: 228/255, 241/255, 246/255, 1
+					foreground_color: 228/255, 241/255, 246/255, 1
+					background_normal: ""
+					background_active: ""
+					
+					input_filter: lambda text, from_undo: text[:200 - len(self.text)]
+					
+					
+				#Encrypted output(bottom)
+				TextInput:
+					id: out_words
+				
+					font_size:20
+					
+					size_hint: 0.75, 0.25
+					pos_hint: {"center_x":0.5, "center_y":0.325}
+					
+					background_color: 26/255, 62/255, 76/255, 1
+					cursor_color: 228/255, 241/255, 246/255, 1
+					foreground_color: 228/255, 241/255, 246/255, 1
+					background_normal: ""
+					background_active: ""
+
+					readonly: True
+					
+					
+				#Go back button
+				Button:
+					size_hint: 0.1, 0.8
+					pos_hint: {"left":1, "top":1}
+					
+					background_normal: ""
+					background_color: 228/255, 241/255, 246/255, 0.3
+					background_down: ""
+					
+					on_press:
+						app.root.current = "main"
+						root.manager.transition.direction = "right"
+						
+				#Arrow image
+				Image:
+					source: "Images/Arrow.png"
+					opacity: 0.8
+					
+					size_hint: 1,1
+					pos_hint: {"center_x":0.04, "center_y":0.6}
+					
+					#Turn the image 180 degrees
+					canvas.before:
+						PushMatrix
+						Rotate:
+							angle: 180
+							origin: self.center
+					canvas.after:
+						PopMatrix
+					
+				
+				#Encrypt button
+				Button:
+					text: "Encrypt"
+					font_size: 20
+					color: 228/255, 241/255, 246/255, 1
+					text_size: self.size
+				
+					valign: "center"
+					halign: "center"
+					size_hint: 0.1,0.11
+					pos_hint: {"center_x":0.175, "center_y":0.6}
+					
+					background_normal: ""
+					background_color: 26/255, 62/255, 76/255, 1
+					background_down: ""
+					
+					on_press: root.encode_btn()
+					
+				
+				#Shift text
+				Label:
+					text: "Shift:"
+					font_size: 20
+					color: 9/255, 40/255, 52/255, 1
+					
+					pos_hint: {"center_x":0.27, "center_y":0.6}
+					
+				
+				#Shift input
+				TextInput:
+					id: in_shift
+				
+					font_size: 20
+					text_size: self.size
+					
+					halign: "center"
+					padding_y: 15
+					size_hint: 0.05, 0.11
+					pos_hint: {"center_x":0.33, "center_y":0.6}
+					
+					background_color: 26/255, 62/255, 76/255, 1
+					cursor_color: 228/255, 241/255, 246/255, 1
+					foreground_color: 228/255, 241/255, 246/255, 1
+					background_normal: ""
+					background_active: ""
+					
+					input_filter: lambda text, from_undo: text[:3 - len(self.text)]
+					multiline: False
+				
+				
+				#Txt button
+				Button:
+					text: ".txt"
+					font_size: 20
+					color: 228/255, 241/255, 246/255, 1
+					bold: True
+					text_size: self.size
+				
+					valign: "center"
+					halign: "center"
+					size_hint: 0.05,0.11
+					pos_hint: {"center_x":0.85, "center_y":0.6}
+					
+					background_normal: ""
+					background_color: 26/255, 62/255, 76/255, 1
+					background_down: ""
+					
+					on_press: root.encode_txt_btn()
