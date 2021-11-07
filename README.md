@@ -18,3 +18,11 @@ pip install -r requirements.txt
 ```bash
 python CaesarCrypt.py
 ```
+
+## Usage
+
+Encryption example:
+![Alt Text](https://github.com/AleksandrOlshevskii/CaesarCrypt/blob/main/Visual_Usage/Short_Text_Encryption.gif?raw=true)
+
+Decryption example:
+![Alt Text](https://github.com/AleksandrOlshevskii/CaesarCrypt/blob/main/Visual_Usage/Short_Text_Decryption.gif?raw=true)
