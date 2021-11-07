@@ -8,3 +8,13 @@ CaesarCrypt is a GUI application for encryption and decryption of the texts ciph
 - Encryption of .txt files
 - Decryption of short texts with and without given key(shift)
 - Decryption of .txt files with and without given key(shift)
+
+## Installation
+
+```bash
+pip install -r requirements.txt
+```
+
+```bash
+python CaesarCrypt.py
+```
